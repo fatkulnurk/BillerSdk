@@ -1,0 +1,20 @@
+{
+    "name": "fatkulnurk/billersdk",
+    "description": "A PHP Client for Interaction with bayarcepat",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Fatkulnurk\\BillerSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "fatkulnurk",
+            "email": "fatkulnurk@gmail.com"
+        }
+    ],
+    "require": {
+        "duitkupg/duitku-php": "dev-master"
+    }
+}
