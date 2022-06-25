@@ -51,10 +51,10 @@ class Indodax extends Strategy implements PaymentInterface
 
     public function checkStatusPayment(Transaction $transaction, PaymentMethod $paymentMethod)
     {
-        $subHours = (int) (config('setting.expired_at') + 19);
+        $subHours = (int) (config('setting.expired_at') + 8);
         $deposits = (new IndodaxClient())->getTransaction(
             $paymentMethod->payment_code,
-            now()->subMonths(10)->subHours($subHours)->toDateString(),
+            now()->subHours($subHours)->toDateString(),
             now()->toDateString()
         );
 
