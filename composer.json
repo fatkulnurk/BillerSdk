@@ -3,6 +3,9 @@
     "description": "A PHP Client for Interaction with bayarcepat",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "biller", "ppob", "payment point", "pulsa", "script pulsa"
+    ],
     "autoload": {
         "psr-4": {
             "Fatkulnurk\\BillerSdk\\": "src/"
