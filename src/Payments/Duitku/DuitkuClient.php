@@ -12,7 +12,7 @@ class DuitkuClient
             config('setting.payments.duitku.merchant_key'),
             config('setting.payments.duitku.merchant_code')
         );
-        $duitkuConfig->setSandboxMode(config('setting.payments.duitku.is_sandbox'));
+        $duitkuConfig->setSandboxMode(config('setting.payments.duitku.is_sandbox', true));
         $duitkuConfig->setSanitizedMode(false);
         $duitkuConfig->setDuitkuLogs(false);
 

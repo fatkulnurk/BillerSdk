@@ -38,7 +38,7 @@ class Indodax extends Strategy implements PaymentInterface
             'unique_amount' => $randomAmount,
             'fee' => $fee,
             'total' => $totalRateFloat,
-            'expired_at' => now()->addHours(12)->timestamp
+            'expired_at' => now()->addHours(config('setting.expired_at'))->timestamp
         ]);
 
         return $transactionPayment;
@@ -54,8 +54,14 @@ class Indodax extends Strategy implements PaymentInterface
 
         foreach ($deposits as $deposit) {
             if (($deposit['status'] == 'success') && ($deposit['amount'] == $transaction->transactionPayment->total)) {
-                $transaction->status = TransactionStatusEnum::STATUS_PROCESS;
-                $transaction->save();
+                Transaction::where('id', $transaction->id)->update([
+                    'status' => TransactionStatusEnum::STATUS_PROCESS
+                ]);
+
+                TransactionPayment::where('transaction_id', $transaction->id)->update([
+                    'paid_at' => now()->timestamp,
+                    'ref_id' => $deposit['deposit_id']
+                ]);
             }
         }
 
