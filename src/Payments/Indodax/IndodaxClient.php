@@ -29,7 +29,7 @@ class IndodaxClient
         $response = Http::asForm()->withHeaders($headers)->post($url, (array) $data);
 
         if ($response->ok()) {
-            return cache()->remember($payload, 15, function () use ($response, $cryptoSymbol) {
+            return cache()->remember($payload, 30, function () use ($response, $cryptoSymbol) {
                 $data = collect($response->json())->toArray();
                 if (optional($data)['success']) {
                     $deposits = $data['return']['deposit'];
