@@ -1,7 +1,7 @@
 {
     "name": "fatkulnurk/billersdk",
     "description": "A PHP Client for Interaction with bayarcepat",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
