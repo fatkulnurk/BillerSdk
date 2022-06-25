@@ -3,7 +3,7 @@
 namespace Fatkulnurk\BillerSdk\Products;
 
 use Fatkulnurk\BillerSdk\Clients\HttpClient;
-use Fatkulnurk\BillerSdk\Config;
+use Fatkulnurk\BillerSdk\ProductConfig;
 use Fatkulnurk\BillerSdk\Enums\CustomerContactTypeEnum;
 
 class PaymentPoint
@@ -14,7 +14,7 @@ class PaymentPoint
             'expand' => (int)(($withExpand) ? 1 : 0)
         ]);
 
-        $url = Config::getInstance()->getBaseUrl() . '/v1/products/payment-points/prepaids?' . $query;
+        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/products/payment-points/prepaids?' . $query;
         $response = HttpClient::request()->get($url);
 
         if ($response->ok()) {
@@ -26,17 +26,16 @@ class PaymentPoint
 
     public function order(
         string $productId,
-        string $merchantId,
         string $target,
         string $customerContact = '',
         int    $ccType = CustomerContactTypeEnum::CC_TYPE_WHATSAPP,
         bool   $isCheck = false
     )
     {
-        $url = Config::getInstance()->getBaseUrl() . '/v1/order/payment-points';
+        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/order/payment-points';
         $response = HttpClient::request()->post($url, [
             'product_id' => $productId,
-            'merchant_id' => $merchantId,
+            'merchant_id' => ProductConfig::getInstance()->getMerchantId(),
             'target' => $target,
             'customer_contact' => $customerContact,
             'cc_type' => $ccType,
@@ -52,7 +51,7 @@ class PaymentPoint
 
     public function getTransactions(string $transactionId = '')
     {
-        $url = Config::getInstance()->getBaseUrl() . '/v1/order/payment-points';
+        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/order/payment-points';
 
         if (!blank($transactionId)) {
             $url = $url . '/' . $transactionId;

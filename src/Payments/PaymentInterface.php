@@ -2,11 +2,11 @@
 
 namespace Fatkulnurk\BillerSdk\Payments;
 
+use App\Models\PaymentMethod;
 use App\Models\Transaction;
-use App\Models\TransactionPayment;
 
 interface PaymentInterface
 {
-    public function create(Transaction $transaction);
-    public function checkStatus(TransactionPayment $transactionPayment);
+    public function create(Transaction $transaction, PaymentMethod $paymentMethod);
+    public function checkStatusPayment(Transaction $transactionPayment, PaymentMethod $paymentMethod);
 }

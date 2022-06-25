@@ -2,6 +2,9 @@
 
 namespace Fatkulnurk\BillerSdk\Payments;
 
+use App\Enums\PaymentMethodProviderEnum;
+use App\Enums\TransactionStatusEnum;
+use App\Models\PaymentMethod;
 use App\Models\Transaction;
 use App\Models\TransactionPayment;
 use Fatkulnurk\BillerSdk\Payments\Duitku\Duitku;
@@ -12,14 +15,18 @@ class Payment
 {
     public PaymentInterface $payment;
 
-    public function getProvider(string $provider): PaymentInterface
+    public function getProvider(PaymentMethod $paymentMethod): PaymentInterface
     {
-        return match ($provider) {
-            'indodax' => (new Indodax()),
-            'duitku' => (new Duitku()),
-            'moota' => (new Moota()),
-            default => throw new \Exception('Payment provider not found'),
-        };
+        switch($paymentMethod->provider) {
+            case PaymentMethodProviderEnum::PROVIDER_INDODAX:
+                return (new Indodax());
+            case PaymentMethodProviderEnum::PROVIDER_DUITKU :
+                return (new Duitku());
+            case PaymentMethodProviderEnum::PROVIDER_MOOTA:
+                return (new Moota());
+            default:
+                throw new \Exception('Payment provider not found');
+            }
     }
 
     public function setPayment(PaymentInterface $paymentProvider): void
@@ -27,13 +34,17 @@ class Payment
         $this->payment = $paymentProvider;
     }
 
-    public function createPayment(Transaction $transaction)
+    public function createPayment(Transaction $transaction, PaymentMethod $paymentMethod)
     {
-        return $this->payment->create($transaction);
+        return $this->payment->create($transaction, $paymentMethod);
     }
 
-    public function checkStatus(TransactionPayment $transactionPayment)
+    /*
+     * if payment success
+     * order to provider
+     * */
+    public function checkStatusPayment(Transaction $transaction, PaymentMethod $paymentMethod)
     {
-        return $this->payment->checkStatus($transactionPayment);
+        return $this->payment->checkStatusPayment($transaction, $paymentMethod);
     }
 }

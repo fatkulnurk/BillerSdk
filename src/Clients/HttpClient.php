@@ -2,7 +2,7 @@
 
 namespace Fatkulnurk\BillerSdk\Clients;
 
-use Fatkulnurk\BillerSdk\Config;
+use Fatkulnurk\BillerSdk\ProductConfig;
 
 class HttpClient
 {
@@ -11,6 +11,6 @@ class HttpClient
         return \Illuminate\Support\Facades\Http::withoutVerifying()
             ->timeout(600)
             ->connectTimeout(600)
-            ->withToken(Config::getInstance()->getToken());
+            ->withToken(ProductConfig::getInstance()->getToken());
     }
 }
