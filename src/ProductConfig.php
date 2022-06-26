@@ -9,13 +9,17 @@ class ProductConfig
 
     private string $baseUrl = 'http://bayarcepat.test/api';
 
-
     /**
      * @return string
      */
     public function getBaseUrl(): string
     {
-        return $this->baseUrl;
+        return config('setting.api.base_url', $this->baseUrl);
+    }
+
+    public function setBaseUrl(string $baseUrl = '*/api')
+    {
+        $this->baseUrl = $baseUrl;
     }
 
     /**

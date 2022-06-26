@@ -8,7 +8,8 @@ class HttpClient
 {
     public static function request(): \Illuminate\Http\Client\PendingRequest
     {
-        return \Illuminate\Support\Facades\Http::withoutVerifying()
+        return \Illuminate\Support\Facades\Http::asJson()
+            ->withoutVerifying()
             ->timeout(600)
             ->connectTimeout(600)
             ->withToken(ProductConfig::getInstance()->getToken());

@@ -28,11 +28,11 @@ class PaymentPoint
         string $productId,
         string $target,
         string $customerContact = '',
-        int    $ccType = CustomerContactTypeEnum::CC_TYPE_WHATSAPP,
+        int    $ccType = CustomerContactTypeEnum::CC_TYPE_EMAIL,
         bool   $isCheck = false
     )
     {
-        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/order/payment-points';
+        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/orders/payment-points';
         $response = HttpClient::request()->post($url, [
             'product_id' => $productId,
             'merchant_id' => ProductConfig::getInstance()->getMerchantId(),
@@ -46,15 +46,15 @@ class PaymentPoint
             return collect($response->json()['data'])->toArray();
         }
 
-        return [];
+        return optional($response->json())['message'] ?? $response->body();
     }
 
-    public function getTransactions(string $transactionId = '')
+    public function getTransactions(string $reffId = '')
     {
-        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/order/payment-points';
+        $url = ProductConfig::getInstance()->getBaseUrl() . '/v1/transactions/payment-points';
 
-        if (!blank($transactionId)) {
-            $url = $url . '/' . $transactionId;
+        if (!blank($reffId)) {
+            $url = $url . '/' . $reffId;
         }
 
         $response = HttpClient::request()->post($url);
@@ -63,11 +63,11 @@ class PaymentPoint
             return collect($response->json()['data'])->toArray();
         }
 
-        return [];
+        return optional($response->json())['message'] ?? $response->body();
     }
 
-    public function checkTransaction(string $transactionId)
+    public function checkTransaction(string $reffId)
     {
-        return $this->getTransactions($transactionId);
+        return $this->getTransactions($reffId);
     }
 }
